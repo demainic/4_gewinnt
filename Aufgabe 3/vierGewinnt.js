@@ -43,7 +43,8 @@ function showBoard (){
             })
         }else{
             document.querySelector('.board').appendChild(elt('div', {class:'field'})).addEventListener('click', function(e){
-                click(e.target,i)
+                click(e.target,i);
+                console.log(i)
             })
         }
 
@@ -61,24 +62,49 @@ function reset(){
 }
 /*
 sets circles
+Beispiel: click auf 41, 41%7 = 6 -> Reihe 6 + 35 =41 -> circle wird auf 41 gelegt
+Wenn schon besetzt -> es muss
  */
 function click(target,number){
     console.log("click")
     let board = document.querySelector('.board')
     let flatGame = game.flat()
-    if(flatGame[number]!=""){
-        alert("This field is already taken")
+
+    newNumber = number%7+35 //divided by 6 to get the first box in the column
+    while(newNumber>=0){
+        // console.log("new number:", newNumber)
+        if (flatGame[newNumber] == "") {
+        break
+        }
+        newNumber = newNumber-7
+    }
+//
+    if(newNumber<0){
+        alert("This column is full")
     }
     else{
-        let x = Math.floor(number/ROWS)
-        let y = number%ROWS
+        let x = Math.floor(newNumber/ROWS)
+        let y = newNumber%ROWS
         currentPlayer ? game[x][y] = "b" : game[x][y] = "r"
         currentPlayer ? currentPlayer = 0 : currentPlayer = 1;
+        setColorAndPlayer()
     }
     showBoard()
 
 }
 
+
+function setColorAndPlayer(){
+    title = document.getElementById('header-title')
+    if(currentPlayer == 0){
+        title.textContent = "Rot ist am Zug"
+        title.style.backgroundColor = "red"
+    }else{
+        title.textContent = "Blau ist am Zug"
+        title.style.backgroundColor = "blue"
+    }
+
+}
 
 
 function newGame(){
@@ -88,22 +114,6 @@ function newGame(){
 }
 
 
-
-// function changeByInterval() {
-//     let randColor = Math.floor(Math.random() * (3 - 1 + 1))+1 // max-min+1 + min
-//     let randPlace = Math.floor(Math.random() * COLUMNS * ROWS)
-//     let y = Math.trunc(randPlace / ROWS)
-//     let x = (randPlace % ROWS)
-//
-//     if (randColor == 1){
-//         game[y][x] = "r"
-//     }else if (randColor == 2){
-//         game[y][x] = "b"
-//     }else {
-//         game[y][x] = ""
-//     }
-//     showBoard()
-// }
 
 function startGame(){
     game = Array(COLUMNS).fill('').map(el => Array(ROWS).fill(''))
