@@ -95,6 +95,9 @@ function getDiags1(board) {
 function getDiags2(board) {
     let diag2 = []
     let newBoard = []
+    for (let i = 0; i < NUM_ROWS; i++) {
+        newBoard.push(board.reverse())
+    }
     newBoard[0] = board[5]
     newBoard[1] = board[4]
     newBoard[2] = board[3]
