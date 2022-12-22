@@ -1,7 +1,8 @@
+import { render } from "./lib/suiweb.js"
+
 const COLUMNS = 6;
 const ROWS = 7;
 const url = "http://localhost:3000"
-
 let currentPlayer = 0;
 let game = Array(COLUMNS).fill('').map(el => Array(ROWS).fill(''))
 
@@ -73,6 +74,7 @@ function click(target, number) {
     if (newNumber < 0) {
         alert("This column is full")
     } else {
+
         let x = Math.floor(newNumber / ROWS)
         let y = newNumber % ROWS
         currentPlayer ? game[x][y] = "b" : game[x][y] = "r"
@@ -95,21 +97,23 @@ function setColorAndPlayer() {
 
 }
 
-function saveState(){
-    console.log("loads")
-    fetch(url + "/api/data" + "datakey" + "?api-key=c4game", {
-        method: 'PUT',
-        headers: { 'Content-type': 'application/json'},
-        body: data.toJSON()
+function saveState() {
+    fetch(url + "/api/data/" + "state" + "?api-key=c4game", {
+        method: "PUT",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(game),
     })
 }
 
-function loadState(){
-    fetch(url + "/api/data" + "?api-key=c4game", {
-        method: 'PUT',
-        headers: { 'Content-type': 'application/json'},
-        body: game
-    }).then(res => console.log(res))
+function loadState() {
+    fetch(url + "/api/data/" + "state" + "?api-key=c4game")
+        .then((response) => response.json())
+        .then((data) => {
+            if (Object.keys(data).length != 0) {
+                game = data;
+                showBoard();
+            }
+        })
 }
 
 function newGame() {
@@ -119,3 +123,5 @@ function newGame() {
 function startGame() {
     showBoard()
 }
+
+export {startGame}

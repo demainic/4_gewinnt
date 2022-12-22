@@ -11,12 +11,12 @@
 </div>
 </header
 <body>
-<button class="btn btn-dark btn-block">Neues Spiel</button>
+<button class="btn btn-dark btn-block" id="button-new" onclick="newGame()">Neues Spiel</button>
 <button class="btn btn-dark btn-block" id="button-load" onclick="loadState()">Laden</button>
 <button class="btn btn-dark btn-block" id="button-save" onclick="saveState()">Speichern</button>
 <div class="board"></div>
-<script>
+<script type="module">
+    import {  } from "./public/js/four-in-a-row"
     showBoard()
-</script>
-</body>
+</script></body>
 </html>
