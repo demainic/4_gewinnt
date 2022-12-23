@@ -8,7 +8,7 @@ const URL = "http://localhost:3000/api/data/state?api-key=c4game"
 
 let state = {			
 	board: Array(COLUMNS).fill('').map(el => Array(ROWS).fill('')),
-	currentPlayer: "r",
+	currentPlayer: "red",
 }
 
 const App = () => [Board, { board: state.board }]
@@ -24,14 +24,6 @@ const Board = ({ board }) => {
 const Field = ({ type, index }) => {
     if (type == '') {
         return ["div", { className: "field " + index, id: index  }]
-    }
-
-    if (type == 'r') {
-        return ["div", { className: "field " + index, id: index  }, ["div", { className: "red piece" }]]
-    }
-
-    if (type == 'b') {
-        return ["div", { className: "field " + index, id: index }, ["div", { className: "blue piece" }]]
     }
 }
 
@@ -63,26 +55,31 @@ function buttonEventHandler(){
 function boardEventHandler(){
     document.querySelector('.board').addEventListener("click", (element) => {        
         doTurn(element)
-        checkIfGameOver()
     })
 }
-
 
 function doTurn(element){
     let fieldNumber = element.target.id;
     let field = Math.floor(fieldNumber % COLUMNS);
     let row = Math.floor(fieldNumber / ROWS);
-    
+
     if(!checkIfEmptyCell(field, row)) {
         alert("This cell is already used")
     }
-    else {
-        state.board[field][row] = getCurrentPlayer()
-        state.currentPlayer === "r" ? state.currentPlayer = "b" : state.currentPlayer = "r"
+    else if(!connect4Winner(getCurrentPlayer(), state.board)) {
+        state.board[field][row] = getCurrentPlayer();
+        
+        let pieceElement = ["div",	{className: state.board[field][row] + " piece"}]
+        let root = document.querySelector('[class="field ' + fieldNumber + '"]')
+        
+        state.currentPlayer === "red" ? state.currentPlayer = "blue" : state.currentPlayer = "red"
+        setColorInTitle();   
+
+        render(pieceElement, root)
     }
-     
-    console.log(state.board)
-    setColorInTitle();   
+    else {
+        alert("Game over!")
+    }
 }
 
 function checkIfGameOver(){
@@ -94,18 +91,18 @@ function checkIfEmptyCell(field , row){
 }
 
 function getCurrentPlayer(){
-    return state.currentPlayer === 'r' ? 'r' : 'b' 
+    return state.currentPlayer 
 }
 
 function setColorInTitle() {
     let title = document.getElementById('header-title')
-    if (state.currentPlayer === "b" ) {
+    if (state.currentPlayer === "blue" ) {
         title.textContent = "Rot ist am Zug"
         title.style.backgroundColor = "red"
     } else {
         title.textContent = "Blau ist am Zug"
         title.style.backgroundColor = "blue"
-        state.currentPlayer = "r"
+        state.currentPlayer = "blue"
     }
 
 }
@@ -114,8 +111,8 @@ function saveStateToServer() {
     fetch(URL, {
         method: "PUT",
         headers: {"Content-type": "application/json"},
-        body: JSON.stringify(state.board),
-    }).then(result => console.log(result))
+        body: JSON.stringify(state),
+    })
 }
 
 function saveStateToLocalStoreage(){
@@ -124,7 +121,7 @@ function saveStateToLocalStoreage(){
 
 function loadStateFromLocalStorage(){
  if (localStorage.getItem("state") != null) {
-    state.board = JSON.parse(localStorage.getItem("state"));
+    state = JSON.parse(localStorage.getItem("state"));
  }
  }
 
@@ -132,17 +129,12 @@ function loadStateFromLocalStorage(){
     fetch(URL)
     .then((response) => response.json())
     .then((data) => {
-            state.board = data;
+            state = data;
             showBoard();
     })
  }
 
  function restartGame() {
-    let title = document.getElementById('header-title')
-    if (state.currentPlayer === "b" ) {
-        title.textContent = "Rot ist am Zug"
-        title.style.backgroundColor = "red"
-    }
     state.board = Array(COLUMNS).fill('').map(el => Array(ROWS).fill(''))
  }
 
