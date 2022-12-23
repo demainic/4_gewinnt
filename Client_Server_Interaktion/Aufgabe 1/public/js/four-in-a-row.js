@@ -67,7 +67,7 @@ function doTurn(element){
     if(!checkIfEmptyCell(field, row)) {
         alert("This cell is already used");
     }
-    else if(!connect4Winner(getCurrentPlayer(), state.board)) {
+    else if(!connect4Winner(getOtherPlayer(), state.board)) {
         state.board[field][row] = getCurrentPlayer();
 
         let pieceElement = ["div",	{className: state.board[field][row] + " piece"}];
@@ -89,6 +89,14 @@ function checkIfEmptyCell(field , row){
 
 function getCurrentPlayer(){
     return state.currentPlayer 
+}
+function getOtherPlayer(){
+    if (state.currentPlayer === "red") {
+        return "blue"
+    }
+    else {
+        return "red"
+    }
 }
 
 function changeCurrentPlayer() {
