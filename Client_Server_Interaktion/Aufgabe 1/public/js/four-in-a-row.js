@@ -154,8 +154,14 @@ function loadStateFromLocalStorage(){
  }
 
  function restartGame() {
+     let title = document.getElementById('header-title')
+     let board = document.querySelector('.board')
+     board.innerHTML = ""
     state.board = Array(COLUMNS).fill('').map(el => Array(ROWS).fill(''))
-     showBoard()
+    state.currentPlayer = "red"
+     title.textContent = "Rot ist am Zug"
+     title.style.backgroundColor = "red"
+     init()
  }
 
  function init(){
