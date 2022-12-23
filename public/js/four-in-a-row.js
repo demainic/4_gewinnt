@@ -75,7 +75,8 @@ function doTurn(element){
     let row = Math.floor(fieldNumber / COLUMNS);
 
     if(checkIfOccupiedCell(row,column)){
-        alert("This cell is already used");
+        // alert("This cell is already used");
+
     }
     else if(!connect4Winner(getOtherPlayer(), state.board)) {
         state.board[row][column] = getCurrentPlayer();
