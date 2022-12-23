@@ -60,4 +60,4 @@ function connect4Winner(color, board){
     return false
 }
 
-export {connect4Winner}
+export { connect4Winner }

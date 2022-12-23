@@ -35,3 +35,7 @@ div {
     background-color: red;
 }
 
+.controls {
+    display: flex;
+}
+

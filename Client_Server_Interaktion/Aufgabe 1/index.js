@@ -5,6 +5,7 @@ const path = require('path');
 var data = {state:{}}
 var apiKeys = ['c4game']
 
+
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
 });

@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="public/css/styles.css">
-    <script src="public/js/four-in-a-row.js"></script>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Four Connect</title>
 </head>
+</header>
+<body>
 <div class="container">
+    <button id="button-new-game">Neues Spiel</button>
+    <button id="button-load-server">Vom Server laden</button>
+    <button id="button-save-server">Auf den Server speichern</button>
+    <button id="button-load-local">Vom LocalStoreage laden</button>
+    <button id="button-save-local">In den LocalStoreage speichern</button>
+    <button id="button-undo">Ein Schritt zurück</button>
     <h1 id="header-title">Rot ist am Zug</h1>
 </div>
-</header
-<body>
-<button class="btn btn-dark btn-block" id="button-new" onclick="newGame()">Neues Spiel</button>
-<button class="btn btn-dark btn-block" id="button-load" onclick="loadState()">Laden</button>
-<button class="btn btn-dark btn-block" id="button-save" onclick="saveState()">Speichern</button>
 <div class="board"></div>
-<script type="module">
-    import {  } from "./public/js/four-in-a-row"
-    showBoard()
-</script></body>
+</body>
+<script type="module" src="public/js/four-in-a-row.js"></script> 
 </html>
