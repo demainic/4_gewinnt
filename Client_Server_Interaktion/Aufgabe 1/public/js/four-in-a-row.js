@@ -11,6 +11,12 @@ let state = {
 	currentPlayer: "red",
 }
 
+let stateseq = {
+    element: [],
+    player: [],
+    current: 0,
+}
+
 const App = () => [Board, { board: state.board }]
 
 const Board = ({ board }) => {
@@ -28,7 +34,6 @@ const Field = ({ type, index }) => {
 }
 
 function showBoard() {
-    console.log("showBoard")
     const app = document.querySelector(".suiweb")
     render([App], app)
     return app
@@ -50,6 +55,9 @@ function buttonEventHandler(){
     document.getElementById('button-new-game').addEventListener("click", () => {
 		restartGame()
 	})
+    document.getElementById('button-undo').addEventListener("click", () => {
+        undo()
+    })
 
 }
 
@@ -73,6 +81,12 @@ function doTurn(element){
         let pieceElement = ["div",	{className: state.board[field][row] + " piece"}];
         let root = document.querySelector('[class="field ' + fieldNumber + '"]');
 
+        stateseq.element.push(element)
+        stateseq.player.push(state.currentPlayer)
+        stateseq.current +=1
+
+        console.log(stateseq)
+        console.log(stateseq.list)
         changeCurrentPlayer();
         render(pieceElement, root);
         setWinTitle();
@@ -164,10 +178,33 @@ function loadStateFromLocalStorage(){
      init()
  }
 
+ function undo() {
+    if (stateseq.current > 0) {
+        stateseq.current -= 1
+        let element = stateseq.element.pop()
+        let fieldNumber = element.target.id;
+        let field = Math.floor(fieldNumber % COLUMNS);
+        let row = Math.floor(fieldNumber / ROWS);
+        state.board[field][row] = ""
+        element.target.innerHTML = ""
+        changeCurrentPlayer()
+
+
+    }
+    else {
+        alert("No more undo possible")
+    }
+ }
+
  function init(){
 	showBoard()
     boardEventHandler()
 	buttonEventHandler()
 }
 
+
 init()
+
+
+
+
