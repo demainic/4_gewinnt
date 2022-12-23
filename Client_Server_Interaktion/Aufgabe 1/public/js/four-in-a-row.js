@@ -6,7 +6,7 @@ const ROWS = 7;
 const URL = "http://localhost:3000/api/data/state?api-key=c4game"
 
 
-let state = {			
+let state = {
 	board: Array(COLUMNS).fill('').map(el => Array(ROWS).fill('')),
 	currentPlayer: "red",
 }
@@ -28,6 +28,7 @@ const Field = ({ type, index }) => {
 }
 
 function showBoard() {
+    console.log("showBoard")
     const app = document.querySelector(".suiweb")
     render([App], app)
     return app
@@ -72,9 +73,9 @@ function doTurn(element){
         let pieceElement = ["div",	{className: state.board[field][row] + " piece"}];
         let root = document.querySelector('[class="field ' + fieldNumber + '"]');
         
-        
-        changeCurrentPlayer();   
-
+        console.log(state.currentPlayer)
+        changeCurrentPlayer();
+        console.log(state.currentPlayer)
         render(pieceElement, root);
     }
     else {
@@ -95,11 +96,15 @@ function changeCurrentPlayer() {
     if (state.currentPlayer === "blue") {
         title.textContent = "Rot ist am Zug"
         title.style.backgroundColor = "red"
+        state.currentPlayer = "red"
+
     } 
-    if(state.currentPlayer === "red") {
+    else if(state.currentPlayer === "red") {
         title.textContent = "Blau ist am Zug"
         title.style.backgroundColor = "blue"
         state.currentPlayer = "blue"
+
+
     }
 }
 
@@ -132,6 +137,7 @@ function loadStateFromLocalStorage(){
 
  function restartGame() {
     state.board = Array(COLUMNS).fill('').map(el => Array(ROWS).fill(''))
+     showBoard()
  }
 
  function init(){
