@@ -63,7 +63,7 @@ function doTurn(element){
     let fieldNumber = element.target.id;
     let field = Math.floor(fieldNumber % COLUMNS);
     let row = Math.floor(fieldNumber / ROWS);
-
+    let title = document.getElementById('header-title')
     if(!checkIfEmptyCell(field, row)) {
         alert("This cell is already used");
     }
@@ -72,12 +72,12 @@ function doTurn(element){
 
         let pieceElement = ["div",	{className: state.board[field][row] + " piece"}];
         let root = document.querySelector('[class="field ' + fieldNumber + '"]');
-        
-        console.log(state.currentPlayer)
+
         changeCurrentPlayer();
-        console.log(state.currentPlayer)
         render(pieceElement, root);
+        setWinTitle();
     }
+
     else {
         alert("Game over!")
     }
@@ -98,7 +98,17 @@ function getOtherPlayer(){
         return "red"
     }
 }
-
+function setWinTitle(){
+    let title = document.getElementById('header-title')
+    if (connect4Winner("red", state.board)) {
+        title.textContent = "Rot hat gewonnen"
+        title.style.backgroundColor = "red"
+    }
+    else if(connect4Winner("blue", state.board)) {
+        title.textContent = "Blau hat gewonnen"
+        title.style.backgroundColor = "blue"
+    }
+}
 function changeCurrentPlayer() {
     let title = document.getElementById('header-title')
     if (state.currentPlayer === "blue") {
