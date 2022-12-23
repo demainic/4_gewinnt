@@ -64,26 +64,22 @@ function doTurn(element){
     let row = Math.floor(fieldNumber / ROWS);
 
     if(!checkIfEmptyCell(field, row)) {
-        alert("This cell is already used")
+        alert("This cell is already used");
     }
     else if(!connect4Winner(getCurrentPlayer(), state.board)) {
         state.board[field][row] = getCurrentPlayer();
-        
-        let pieceElement = ["div",	{className: state.board[field][row] + " piece"}]
-        let root = document.querySelector('[class="field ' + fieldNumber + '"]')
-        
-        state.currentPlayer === "red" ? state.currentPlayer = "blue" : state.currentPlayer = "red"
-        setColorInTitle();   
 
-        render(pieceElement, root)
+        let pieceElement = ["div",	{className: state.board[field][row] + " piece"}];
+        let root = document.querySelector('[class="field ' + fieldNumber + '"]');
+        
+        
+        changeCurrentPlayer();   
+
+        render(pieceElement, root);
     }
     else {
         alert("Game over!")
     }
-}
-
-function checkIfGameOver(){
-    return connect4Winner(getCurrentPlayer, state.board) ? alert("Game finished") : '';
 }
 
 function checkIfEmptyCell(field , row){
@@ -94,17 +90,17 @@ function getCurrentPlayer(){
     return state.currentPlayer 
 }
 
-function setColorInTitle() {
+function changeCurrentPlayer() {
     let title = document.getElementById('header-title')
-    if (state.currentPlayer === "blue" ) {
+    if (state.currentPlayer === "blue") {
         title.textContent = "Rot ist am Zug"
         title.style.backgroundColor = "red"
-    } else {
+    } 
+    if(state.currentPlayer === "red") {
         title.textContent = "Blau ist am Zug"
         title.style.backgroundColor = "blue"
         state.currentPlayer = "blue"
     }
-
 }
 
 function saveStateToServer() {
