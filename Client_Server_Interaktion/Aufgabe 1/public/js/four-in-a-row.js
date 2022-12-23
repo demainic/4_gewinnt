@@ -42,34 +42,33 @@ function showBoard() {
 }
 
 function buttonEventHandler(){
-	document.querySelector('#button-load-server').addEventListener("click", () => {
+	document.getElementById('button-load-server').addEventListener("click", () => {
 		loadStateFromServer()
 	})
-    document.querySelector('#button-save-server').addEventListener("click", () => {
+    document.getElementById('button-save-server').addEventListener("click", () => {
 		saveStateToServer()
 	})
-    document.querySelector('#button-load-local').addEventListener("click", () => {
+    document.getElementById('button-load-local').addEventListener("click", () => {
 		loadStateFromLocalStorage()
 	})
-    document.querySelector('#button-save-local').addEventListener("click", () => {
+    document.getElementById('button-save-local').addEventListener("click", () => {
 		saveStateToLocalStoreage()
 	})
-    document.querySelector('#button-new-game').addEventListener("click", () => {
+    document.getElementById('button-new-game').addEventListener("click", () => {
 		restartGame()
 	})
 
 }
 
-function boardEventHAndler(){
-
+function boardEventHandler(){
+    document.querySelector('.board').addEventListener("click", () => {
+    console.log("board event listener clicked");
+    })
 }
 
 
 function doTurn(){
-    if(state.currentPlayer === 'r'){
-
-    }
-
+    if(state.currentPlayer === 'r'){  }
 }
 
 
@@ -116,6 +115,7 @@ function loadStateFromLocalStorage(){
  function init(){
 	showBoard()
 	buttonEventHandler()
+    boardEventHandler()
 }
 
 init()
